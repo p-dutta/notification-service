@@ -1,0 +1,18 @@
+FROM golang:latest
+
+# Enviroment variable
+WORKDIR /usr/src/notification_subscriber
+
+RUN go install github.com/cosmtrek/air@latest
+
+#Copying files to work directory
+COPY .env ./
+COPY go.mod ./
+RUN go mod download && go mod verify
+COPY . .
+
+ENV TZ=Asia/Dhaka
+
+# Run and expose the server on port 3000
+EXPOSE 3000
+
